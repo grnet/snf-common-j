@@ -33,33 +33,35 @@
  * or implied, of GRNET S.A.
  */
 
-package gr.grnet.common.http
+package gr.grnet.common.keymap
 
-import gr.grnet.common.keymap.KeyMap
+import com.ckkloverdos.key.TKeyOnly
+import gr.grnet.pithosj.core.http.IRequestParam
 
 /**
- * The result of a [[gr.grnet.common.http.Command]].
+ * A typed key for HTTP request parameters.
  *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-case class Result(
-  originator: CommandDescriptor,
-  statusCode: Int,
-  statusText: String,
-  startMillis: Long,
-  stopMillis: Long,
-  responseHeaders: KeyMap,
-  resultData: KeyMap // response headers and other command-specific result data
-) {
-  def completionMillis = stopMillis - startMillis
+final class RequestParamKey private[keymap](
+    override val name: String
+) extends TKeyOnly[String](name)
 
-  def isSuccess: Boolean = originator.successCodes(statusCode)
+/**
+ * Factory for [[gr.grnet.common.keymap.RequestParamKey]]s.
+ *
+ * @author Christos KK Loverdos <loverdos@gmail.com>
+ */
+object RequestParamKey {
+  /**
+   * Factory method for a [[gr.grnet.common.keymap.RequestParamKey]], given
+   * the key's name.
+   */
+  def apply(name: String): RequestParamKey = new RequestParamKey(name)
 
-  def is200 = statusCode == 200
-
-  def is201 = statusCode == 201
-
-  def is204 = statusCode == 204
-
-  def is(code: Int) = this.statusCode == code
+  /**
+   * Factory method for a [[gr.grnet.common.keymap.RequestParamKey]], given
+   * a [[gr.grnet.pithosj.core.http.IRequestParam]].
+   */
+  def apply(param: IRequestParam): RequestParamKey = new RequestParamKey(param.requestParam())
 }

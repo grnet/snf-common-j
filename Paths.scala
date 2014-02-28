@@ -33,33 +33,23 @@
  * or implied, of GRNET S.A.
  */
 
-package gr.grnet.common.http
-
-import gr.grnet.common.keymap.KeyMap
+package gr.grnet.common
 
 /**
- * The result of a [[gr.grnet.common.http.Command]].
+ * Provides path utilities.
  *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-case class Result(
-  originator: CommandDescriptor,
-  statusCode: Int,
-  statusText: String,
-  startMillis: Long,
-  stopMillis: Long,
-  responseHeaders: KeyMap,
-  resultData: KeyMap // response headers and other command-specific result data
-) {
-  def completionMillis = stopMillis - startMillis
+object Paths {
+  def buildWithFirst(first: String, others: String*): String =
+    (Seq(first) ++ others).mkString("/")
 
-  def isSuccess: Boolean = originator.successCodes(statusCode)
+  def buildWithFirst(first: String, others: Array[String]): String =
+    build(Array(first) ++ others)
 
-  def is200 = statusCode == 200
+  def build(paths: String*): String =
+    paths.mkString("/")
 
-  def is201 = statusCode == 201
-
-  def is204 = statusCode == 204
-
-  def is(code: Int) = this.statusCode == code
+  def build(paths: Array[String]): String =
+    build(paths:_*)
 }

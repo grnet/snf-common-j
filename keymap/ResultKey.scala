@@ -33,33 +33,22 @@
  * or implied, of GRNET S.A.
  */
 
-package gr.grnet.common.http
+package gr.grnet.common.keymap
 
-import gr.grnet.common.keymap.KeyMap
+import com.ckkloverdos.key.TKeyOnly
+import gr.grnet.common.http.IHeader
 
 /**
- * The result of a [[gr.grnet.common.http.Command]].
+ * A typed key for domain-specific results of HTTP [[gr.grnet.common.http.Command]]s.
  *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-case class Result(
-  originator: CommandDescriptor,
-  statusCode: Int,
-  statusText: String,
-  startMillis: Long,
-  stopMillis: Long,
-  responseHeaders: KeyMap,
-  resultData: KeyMap // response headers and other command-specific result data
-) {
-  def completionMillis = stopMillis - startMillis
+final class ResultKey[T: Manifest] private[keymap](
+  override val name: String
+) extends TKeyOnly[T](name)
 
-  def isSuccess: Boolean = originator.successCodes(statusCode)
+object ResultKey {
+  def apply[T: Manifest](name: String): ResultKey[T] = new ResultKey[T](name)
 
-  def is200 = statusCode == 200
-
-  def is201 = statusCode == 201
-
-  def is204 = statusCode == 204
-
-  def is(code: Int) = this.statusCode == code
+  def apply[T: Manifest](header: IHeader): ResultKey[T] = new ResultKey[T](header.headerName())
 }
