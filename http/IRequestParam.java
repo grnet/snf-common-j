@@ -33,35 +33,11 @@
  * or implied, of GRNET S.A.
  */
 
-package gr.grnet.common.keymap
-
-import com.ckkloverdos.key.TKeyOnly
-import gr.grnet.common.http.IRequestParam
+package gr.grnet.common.http;
 
 /**
- * A typed key for HTTP request parameters.
- *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-final class RequestParamKey private[keymap](
-    override val name: String
-) extends TKeyOnly[String](name)
-
-/**
- * Factory for [[gr.grnet.common.keymap.RequestParamKey]]s.
- *
- * @author Christos KK Loverdos <loverdos@gmail.com>
- */
-object RequestParamKey {
-  /**
-   * Factory method for a [[gr.grnet.common.keymap.RequestParamKey]], given
-   * the key's name.
-   */
-  def apply(name: String): RequestParamKey = new RequestParamKey(name)
-
-  /**
-   * Factory method for a [[gr.grnet.common.keymap.RequestParamKey]], given
-   * a [[IRequestParam]].
-   */
-  def apply(param: IRequestParam): RequestParamKey = new RequestParamKey(param.requestParam())
+public interface IRequestParam {
+  public String requestParam();
 }
