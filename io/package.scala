@@ -35,22 +35,24 @@
 
 package gr.grnet.common
 
+import java.io.{File, Closeable}
+
 /**
  *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-package object text {
-  implicit class NoTrailingSlash(val s: String) extends AnyVal {
-    def noTrailingSlash: String =
-      if(s.length == 0) s
-      else if(s.charAt(s.length - 1) == '/') s.substring(0, s.length - 1).noTrailingSlash
-      else s
+package object io {
+  implicit class CloseAnyway(val io: Closeable) extends AnyVal {
+    def closeAnyway(): Unit = {
+      try io.close()
+      catch {
+        case _: Exception ⇒
+      }
+    }
   }
 
-  implicit class NormalizeUri(val uri: String) extends AnyVal {
-    def normalizeUri: String = uri.replaceAll("/+", "/")
-  }
-  implicit class UriToList(val uri: String) extends AnyVal {
-    def uriToList: List[String] = uri.split("/").toList
+  implicit class DeleteAnyway(val file: File) extends AnyVal {
+    def deleteAnyway(): Unit =
+      try file.delete() catch { case _: Exception ⇒ }
   }
 }
