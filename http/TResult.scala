@@ -33,22 +33,39 @@
  * or implied, of GRNET S.A.
  */
 
-package gr.grnet.common.io
+package gr.grnet.common.http
 
-import java.io.File
-import java.nio.file.Files
+import gr.grnet.common.keymap.KeyMap
 
 /**
+ * The result of a [[gr.grnet.common.http.Command]].
  *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-object Base64 {
-  def encodeFile(file: File): String = {
-    val bytes = Files.readAllBytes(file.toPath)
-    com.ning.http.util.Base64.encode(bytes)
-  }
+trait TResult[+T <: AnyRef] {
+  val originator: CommandDescriptor
 
-  def decodeString(encoded: String): Array[Byte] = {
-    com.ning.http.util.Base64.decode(encoded)
-  }
+  val statusCode: Int
+
+  val statusText: String
+
+  val startMillis: Long
+
+  val stopMillis: Long
+
+  val responseHeaders: KeyMap
+
+  val result: T
+
+  def completionMillis = stopMillis - startMillis
+
+  def isSuccess: Boolean = originator.successCodes(statusCode)
+
+  def is200 = statusCode == 200
+
+  def is201 = statusCode == 201
+
+  def is204 = statusCode == 204
+
+  def is(code: Int) = this.statusCode == code
 }

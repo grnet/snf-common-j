@@ -40,16 +40,12 @@ package gr.grnet.common.http;
  *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-public enum ContentTypes {
-    Application_Directory("application/directory"),
-    Application_CdmiCapability("application/cdmi-capability"),
-    Application_CdmiDomain("application/vnd.org.snia.cdmi-object"),
-    Application_CdmiContainer("application/cdmi-container"),
-    Application_CdmiData("application/cdmi-object");
+public enum StdContentType implements IContentType {
+    Application_Directory("application/directory");
 
     private final String contentType;
 
-    ContentTypes(String contentType) {
+    StdContentType(String contentType) {
         this.contentType = contentType;
     }
 
