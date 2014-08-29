@@ -18,28 +18,12 @@
 package gr.grnet.common.http;
 
 /**
- * Provides <code>HTTP</code> content types used by the library.
+ *
+ * An internet media type without any parameter. So technically this is just
+ * in the `type/subtype` form as in `text/plain`.
  *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-public enum StdContentType implements IContentType {
-    Application_Directory("application/directory"),
-    Application_Folder("application/folder"),
-    Text_Plain("text/plain"),
-    Text_Html("text/html"),
-    Application_Json("application/json");
-
-    private final String contentType;
-
-    StdContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public String contentType() {
-        return contentType;
-    }
-
-    public boolean is(String contentType) {
-        return this.contentType.equals(contentType);
-    }
+public interface IMediaType {
+    String value();
 }

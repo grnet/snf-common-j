@@ -18,8 +18,28 @@
 package gr.grnet.common.http;
 
 /**
+ * Provides a few standard <code>HTTP</code> media types used by the library.
+ *
  * @author Christos KK Loverdos <loverdos@gmail.com>
  */
-public interface IContentType {
-    String contentType();
+public enum StdMediaType implements IMediaType {
+    Application_Directory("application/directory"),
+    Application_Folder("application/folder"),
+    Text_Plain("text/plain"),
+    Text_Html("text/html"),
+    Application_Json("application/json");
+
+    private final String value;
+
+    StdMediaType(String value) {
+        this.value = value;
+    }
+
+    public String value() {
+        return value;
+    }
+
+    public boolean is(String contentType) {
+        return this.value.equals(contentType);
+    }
 }
