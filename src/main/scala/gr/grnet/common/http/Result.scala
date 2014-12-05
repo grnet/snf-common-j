@@ -17,7 +17,7 @@
 
 package gr.grnet.common.http
 
-import gr.grnet.common.keymap.KeyMap
+import typedkey.env.immutable.Env
 
 /**
  * A standard implementation of a [[gr.grnet.common.http.TResult]].
@@ -28,7 +28,7 @@ case class Result[T](
   statusText: String,
   startMillis: Long,
   stopMillis: Long,
-  responseHeaders: KeyMap,
+  responseHeaders: Env,
   successData: Option[T], // command-specific result data
   errorDetails: Option[String]
 ) extends TResult[T]

@@ -15,30 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gr.grnet.common.keymap
+package gr.grnet.common.key
 
-import com.ckkloverdos.key.TKeyOnly
 import gr.grnet.common.http.IRequestParam
+import typedkey.impl.TagKey
 
 /**
  * A typed key for HTTP request parameters.
  */
-final class RequestParamKey private[keymap](
-    override val name: String
-) extends TKeyOnly[String](name)
+class RequestParamKey(name: String) extends TagKey[String](name)
 
 /**
- * Factory for [[gr.grnet.common.keymap.RequestParamKey]]s.
+ * Factory for [[gr.grnet.common.key.RequestParamKey]]s.
  */
 object RequestParamKey {
   /**
-   * Factory method for a [[gr.grnet.common.keymap.RequestParamKey]], given
+   * Factory method for a [[gr.grnet.common.key.RequestParamKey]], given
    * the key's name.
    */
   def apply(name: String): RequestParamKey = new RequestParamKey(name)
 
   /**
-   * Factory method for a [[gr.grnet.common.keymap.RequestParamKey]], given
+   * Factory method for a [[gr.grnet.common.key.RequestParamKey]], given
    * a [[IRequestParam]].
    */
   def apply(param: IRequestParam): RequestParamKey = new RequestParamKey(param.requestParam())

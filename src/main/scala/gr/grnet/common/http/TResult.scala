@@ -17,7 +17,7 @@
 
 package gr.grnet.common.http
 
-import gr.grnet.common.keymap.KeyMap
+import typedkey.env.immutable.Env
 
 /**
  * The result of a [[gr.grnet.common.http.Command]].
@@ -33,7 +33,7 @@ trait TResult[+T] {
 
   val stopMillis: Long
 
-  val responseHeaders: KeyMap
+  val responseHeaders: Env
 
   val successData: Option[T]
 

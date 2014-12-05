@@ -15,20 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gr.grnet.common.keymap
+package gr.grnet.common.key
 
-import com.ckkloverdos.key.TKeyOnly
 import gr.grnet.common.http.IHeader
+import typedkey.impl.TagKey
+
+import scala.reflect.ClassTag
 
 /**
- * A typed key for domain-specific results of HTTP [[gr.grnet.common.http.Command]]s.
+ * A typed key for HTTP headers.
  */
-final class ResultKey[T: Manifest] private[keymap](
-  override val name: String
-) extends TKeyOnly[T](name)
+final class HeaderKey[T: ClassTag](name: String) extends TagKey[T](name)
 
-object ResultKey {
-  def apply[T: Manifest](name: String): ResultKey[T] = new ResultKey[T](name)
+object HeaderKey {
+  def apply[T: Manifest](name: String): HeaderKey[T] = new HeaderKey[T](name)
 
-  def apply[T: Manifest](header: IHeader): ResultKey[T] = new ResultKey[T](header.headerName())
+  def apply[T: Manifest](header: IHeader): HeaderKey[T] = new HeaderKey[T](header.headerName())
 }

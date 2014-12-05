@@ -49,7 +49,8 @@
   <properties>
     <scala.version>2.10.4</scala.version>
     <okio.version>1.0.1</okio.version>
-    <jackson.version>2.3.2</jackson.version>
+    <netty.version>3.9.4.Final</netty.version>
+    <jackson.version>2.4.4</jackson.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
   </properties>
@@ -68,9 +69,15 @@
     </dependency>
 
     <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty</artifactId>
+      <version>${netty.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.ckkloverdos</groupId>
       <artifactId>typedkey</artifactId>
-      <version>0.7.0</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>

@@ -17,7 +17,8 @@
 
 package gr.grnet.common.http
 
-import gr.grnet.common.keymap.{ResultKey, HeaderKey, KeyMap}
+import gr.grnet.common.key.{HeaderKey, ResultKey}
+import typedkey.env.ImEnv
 
 /**
  * A command is executed against an HTTP server and returns a [[gr.grnet.common.http.Result]].
@@ -41,12 +42,12 @@ trait Command[T] {
   /**
    * The HTTP request headers that are set by this command.
    */
-  def requestHeaders: KeyMap
+  def requestHeaders: ImEnv
 
   /**
    * The HTTP query parameters that are set by this command.
    */
-  def queryParameters: KeyMap
+  def queryParameters: ImEnv
 
   /**
    * Type-safe keys for `HTTP` response headers that are specific to this command.
@@ -95,9 +96,9 @@ trait Command[T] {
 
   /**
    * Parses the response headers in a domain-specific way. This means that the keys contained in
-   * the returned `KeyMap` are domain-specific.
+   * the returned `Env` are domain-specific.
    */
-  def parseAllResponseHeaders(responseHeaders: scala.collection.Map[String, List[String]]): KeyMap
+  def parseAllResponseHeaders(responseHeaders: scala.collection.Map[String, List[String]]): ImEnv
 
   /**
    * Generates a new command descriptor for this command.
@@ -105,7 +106,7 @@ trait Command[T] {
   def descriptor: CommandDescriptor
 
   def buildResultData(
-    responseHeaders: KeyMap,
+    responseHeaders: ImEnv,
     statusCode: Int,
     statusText: String,
     startMillis: Long,
@@ -118,12 +119,12 @@ trait Command[T] {
    * in order to produce domain-specific objects.
    */
   def buildResult(
-    responseHeaders: KeyMap,
+    responseHeaders: ImEnv,
     statusCode: Int,
     statusText: String,
     startMillis: Long,
     stopMillis: Long,
     getResponseBody: () ⇒ String,
-    resultData: KeyMap = KeyMap()
+    resultData: ImEnv = ImEnv()
   ): TResult[T]
 }

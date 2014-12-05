@@ -17,7 +17,7 @@
 
 package gr.grnet.common.http
 
-import gr.grnet.common.keymap.KeyMap
+import typedkey.env.immutable.Env
 
 /**
  * A high-level view of HTTP request details.
@@ -27,7 +27,7 @@ case class CommandDescriptor(
   userID: String,
   requestURL: String,
   httpMethod: Method,
-  requestHeaders: KeyMap,
-  queryParameters: KeyMap,
+  requestHeaders: Env,
+  queryParameters: Env,
   successCodes: Set[Int]
 )
