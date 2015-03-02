@@ -17,6 +17,7 @@
 
 package gr.grnet.common.http
 
+import com.twitter.finagle.httpx.Method
 import typedkey.env.immutable.Env
 
 /**
