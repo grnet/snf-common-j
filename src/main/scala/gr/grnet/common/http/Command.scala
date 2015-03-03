@@ -93,7 +93,9 @@ trait Command[T] {
    * Computes that URL path parts that will follow the Pithos+ server URL
    * in the HTTP call.
    */
-  def serverURLPathElements: Seq[String]
+  def serverRootPathElements: Seq[String]
+
+  def serverRootPath: String = serverRootPathElements.mkString("/")
 
   def buildResultData(response: Response, startMillis: Long, stopMillis: Long): T
 
