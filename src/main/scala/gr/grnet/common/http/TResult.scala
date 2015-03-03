@@ -31,6 +31,8 @@ trait TResult[+T] {
 
   def stopMillis: Long
 
+  def dtMillis = stopMillis - startMillis
+
   def responseHeaders: HeaderMap
 
   def successData: Option[T]
