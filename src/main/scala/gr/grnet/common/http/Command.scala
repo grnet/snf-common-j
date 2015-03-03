@@ -95,12 +95,6 @@ trait Command[T] {
    */
   def serverURLPathElements: Seq[String]
 
-  /**
-   * Parses the response headers in a domain-specific way. This means that the keys contained in
-   * the returned `Env` are domain-specific.
-   */
-  def parseAllResponseHeaders(responseHeaders: scala.collection.Map[String, List[String]]): ImEnv
-
   def buildResultData(response: Response, startMillis: Long, stopMillis: Long): T
 
   /**
