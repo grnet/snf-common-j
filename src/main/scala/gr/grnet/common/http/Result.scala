@@ -17,18 +17,17 @@
 
 package gr.grnet.common.http
 
-import typedkey.env.immutable.Env
+import com.twitter.finagle.httpx.{HeaderMap, Status}
 
 /**
  * A standard implementation of a [[gr.grnet.common.http.TResult]].
  */
 case class Result[T](
-  originator: CommandDescriptor,
-  statusCode: Int,
-  statusText: String,
+  successStatuses: Set[Status],
+  status: Status,
   startMillis: Long,
   stopMillis: Long,
-  responseHeaders: Env,
+  responseHeaders: HeaderMap,
   successData: Option[T], // command-specific result data
   errorDetails: Option[String]
 ) extends TResult[T]

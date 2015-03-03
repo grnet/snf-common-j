@@ -17,7 +17,7 @@
 
 package gr.grnet.common.http
 
-import com.twitter.finagle.httpx.Method
+import com.twitter.finagle.httpx.{Status, Response, Method}
 import gr.grnet.common.key.{HeaderKey, ResultKey}
 import typedkey.env.ImEnv
 
@@ -69,14 +69,14 @@ trait Command[T] {
   def resultDataKeys: Seq[ResultKey[_]]
 
   /**
-   * A set of all the HTTP status codes that are considered a success for this command.
+   * A set of all the HTTP statuses that are considered a success for this command.
    */
-  def successCodes: Set[Int]
+  def successStatuses: Set[Status]
 
   /**
    * A set of all the HTTP status codes that are considered a failure for this command.
    */
-  def failureCodes: Set[Int]
+  def failureStatuses: Set[Status]
 
   /**
    * Validates this command. Returns some error iff there is any.
@@ -101,31 +101,11 @@ trait Command[T] {
    */
   def parseAllResponseHeaders(responseHeaders: scala.collection.Map[String, List[String]]): ImEnv
 
-  /**
-   * Generates a new command descriptor for this command.
-   */
-  def descriptor: CommandDescriptor
-
-  def buildResultData(
-    responseHeaders: ImEnv,
-    statusCode: Int,
-    statusText: String,
-    startMillis: Long,
-    stopMillis: Long,
-    getResponseBody: () ⇒ String
-  ): T
+  def buildResultData(response: Response, startMillis: Long, stopMillis: Long): T
 
   /**
    * Builds the domain-specific result of this command. Each command knows how to parse the HTTP response
    * in order to produce domain-specific objects.
    */
-  def buildResult(
-    responseHeaders: ImEnv,
-    statusCode: Int,
-    statusText: String,
-    startMillis: Long,
-    stopMillis: Long,
-    getResponseBody: () ⇒ String,
-    resultData: ImEnv = ImEnv()
-  ): TResult[T]
+  def buildResult(response: Response, startMillis: Long, stopMillis: Long): TResult[T]
 }

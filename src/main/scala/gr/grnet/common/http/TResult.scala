@@ -17,31 +17,31 @@
 
 package gr.grnet.common.http
 
-import typedkey.env.immutable.Env
+import com.twitter.finagle.httpx.{HeaderMap, Status}
 
 /**
  * The result of a [[gr.grnet.common.http.Command]].
  */
 trait TResult[+T] {
-  val originator: CommandDescriptor
+  def status: Status
 
-  val statusCode: Int
+  def statusCode = status.code
+  
+  def startMillis: Long
 
-  val statusText: String
+  def stopMillis: Long
 
-  val startMillis: Long
+  def responseHeaders: HeaderMap
 
-  val stopMillis: Long
-
-  val responseHeaders: Env
-
-  val successData: Option[T]
+  def successData: Option[T]
 
   def errorDetails: Option[String]
 
   def completionMillis = stopMillis - startMillis
 
-  def isSuccess: Boolean = originator.successCodes(statusCode)
+  def successStatuses: Set[Status]
+
+  def isSuccess: Boolean = successStatuses(status)
 
   def is200 = statusCode == 200
 
@@ -49,5 +49,5 @@ trait TResult[+T] {
 
   def is204 = statusCode == 204
 
-  def is(code: Int) = this.statusCode == code
+  def is(status: Status) = this.statusCode == status.code
 }
