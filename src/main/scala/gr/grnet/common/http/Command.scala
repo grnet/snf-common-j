@@ -17,9 +17,8 @@
 
 package gr.grnet.common.http
 
-import com.twitter.finagle.httpx.{Status, Response, Method}
+import com.twitter.finagle.httpx._
 import gr.grnet.common.key.{HeaderKey, ResultKey}
-import typedkey.env.ImEnv
 
 /**
  * A command is executed against an HTTP server and returns a [[gr.grnet.common.http.Result]].
@@ -43,12 +42,12 @@ trait Command[T] {
   /**
    * The HTTP request headers that are set by this command.
    */
-  def requestHeaders: ImEnv
+  def requestHeaders: Map[String, String]
 
   /**
    * The HTTP query parameters that are set by this command.
    */
-  def queryParameters: ImEnv
+  def queryParameters: Map[String, String]
 
   /**
    * Type-safe keys for `HTTP` response headers that are specific to this command.
@@ -87,7 +86,12 @@ trait Command[T] {
    * Computes the URL that will be used in the HTTP call.
    * The URL does not contain any needed parameters.
    */
-  def serverURLExcludingParameters: String
+  def callURLExcludingParameters: String
+
+  /**
+   * Computes the URL that will be used in the HTTP call.
+   */
+  def callURL: String
 
   /**
    * Computes that URL path parts that will follow the Pithos+ server URL
