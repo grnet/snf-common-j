@@ -18,15 +18,17 @@
 package gr.grnet.common.io
 
 import java.io.File
+import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 
 import okio.ByteString
 
 object Base64 {
-  def encodeFile(file: File): String = {
-    val bytes = Files.readAllBytes(file.toPath)
-    ByteString.of(bytes, 0, bytes.length).base64()
-  }
+  def encodeArray(bytes: Array[Byte]): String = ByteString.of(bytes, 0, bytes.length).base64()
+
+  def encodeFile(file: File): String = encodeArray(Files.readAllBytes(file.toPath))
+
+  def encodeString(s: String): String = encodeArray(s.getBytes(StandardCharsets.UTF_8))
 
   def decodeString(encoded: String): Array[Byte] = ByteString.decodeBase64(encoded).toByteArray
 }
