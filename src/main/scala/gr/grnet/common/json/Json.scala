@@ -17,29 +17,13 @@
 
 package gr.grnet.common.json
 
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
 
 /**
  * JSON utilities
  */
 object Json {
-  final val Mapper = new ObjectMapper().registerModule(DefaultScalaModule)
-
-  final val PrettyPrinter = {
-    val printer = new DefaultPrettyPrinter
-    val indenter = new DefaultPrettyPrinter.Lf2SpacesIndenter
-    printer.indentArraysWith(indenter)
-    printer.indentObjectsWith(indenter)
-    printer
-  }
-
-  final val Writer = Mapper.writer(PrettyPrinter)
-
-  def objectToJsonString[A <: AnyRef](obj: A): String =
-    Writer.writeValueAsString(obj)
-
-  def jsonStringToTree(json: String): JsonNode =
-    Mapper.reader().readTree(json)
+  final val Mapper = new ObjectMapper()
+  
+  def stringToTree(json: String): JsonNode = Mapper.readTree(json)
 }
