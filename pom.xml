@@ -72,7 +72,7 @@
     <dependency>
       <groupId>com.ckkloverdos</groupId>
       <artifactId>typedkey</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
+      <version>0.9.0</version>
     </dependency>
 
     <dependency>
